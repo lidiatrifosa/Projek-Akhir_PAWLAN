@@ -4,16 +4,27 @@ Platform informasi kampus terpusat berbasis web yang mengagregasi pengumuman, ev
 
 ## 👥 Anggota Kelompok
 
+<<<<<<< HEAD
 | NIM             | Nama                       |
 | --------------- | -------------------------- |
 | 235150707111026 | LISHA KHAERUNNISWAH        |
 | 245150701111020 | LIDIA TRIFOSA SIMANGUNSONG |
 | 245150707111015 | DEWI LESTARI TAMPUBOLON    |
+=======
+| NIM | Nama |
+|-----|------|
+| 235150707111026 | 	LISHA KHAERUNNISWAH  |
+| 245150701111020 | LIDIA TRIFOSA SIMANGUNSONG |
+| 245150707111015 | DEWI LESTARI TAMPUBOLON |
+>>>>>>> 044ac6e3c0bdcfd185a48453dedb7a4b28737cd4
 
 ## 🚀 Fitur
 
 ### Fitur Wajib
+<<<<<<< HEAD
 
+=======
+>>>>>>> 044ac6e3c0bdcfd185a48453dedb7a4b28737cd4
 - Halaman beranda dengan feed pengumuman & informasi terbaru
 - Sistem kategori informasi (Akademik, Event, Beasiswa, Magang, Organisasi)
 - Halaman detail informasi lengkap dengan gambar dan lampiran
@@ -22,22 +33,36 @@ Platform informasi kampus terpusat berbasis web yang mengagregasi pengumuman, ev
 - Autentikasi pengguna (login admin & mahasiswa)
 
 ### Fitur Opsional
+<<<<<<< HEAD
 
+=======
+>>>>>>> 044ac6e3c0bdcfd185a48453dedb7a4b28737cd4
 - Fitur bookmark / simpan informasi favorit
 - Filter berdasarkan jurusan atau fakultas tertentu
 
 ## 👤 Role & Hak Akses
 
+<<<<<<< HEAD
 | Role         | Hak Akses                                               |
 | ------------ | ------------------------------------------------------- |
 | Admin        | Mengelola semua konten (tambah, edit, hapus pengumuman) |
 | Mahasiswa    | Melihat, mencari, dan menyimpan informasi               |
 | Tamu (Guest) | Melihat informasi publik tanpa login                    |
+=======
+| Role | Hak Akses |
+|------|-----------|
+| Admin | Mengelola semua konten (tambah, edit, hapus pengumuman) |
+| Mahasiswa | Melihat, mencari, dan menyimpan informasi |
+| Tamu (Guest) | Melihat informasi publik tanpa login |
+>>>>>>> 044ac6e3c0bdcfd185a48453dedb7a4b28737cd4
 
 ## 🔄 Alur Sistem
 
 ### Admin Memposting Pengumuman Baru
+<<<<<<< HEAD
 
+=======
+>>>>>>> 044ac6e3c0bdcfd185a48453dedb7a4b28737cd4
 1. Admin login ke dashboard
 2. Klik "Tambah Pengumuman"
 3. Isi judul, deskripsi, kategori, tanggal, dan unggah lampiran
@@ -45,7 +70,10 @@ Platform informasi kampus terpusat berbasis web yang mengagregasi pengumuman, ev
 5. Pengumuman tampil di halaman beranda
 
 ### Mahasiswa Mencari Informasi Beasiswa
+<<<<<<< HEAD
 
+=======
+>>>>>>> 044ac6e3c0bdcfd185a48453dedb7a4b28737cd4
 1. Mahasiswa membuka website (bisa tanpa login)
 2. Pilih kategori "Beasiswa" atau ketik di kolom pencarian
 3. Sistem menampilkan daftar beasiswa yang tersedia
@@ -55,6 +83,7 @@ Platform informasi kampus terpusat berbasis web yang mengagregasi pengumuman, ev
 ## 🗄️ Struktur Database
 
 ### Tabel `users`
+<<<<<<< HEAD
 
 | Kolom      | Tipe                       | Keterangan |
 | ---------- | -------------------------- | ---------- |
@@ -89,3 +118,36 @@ Platform informasi kampus terpusat berbasis web yang mengagregasi pengumuman, ev
 | user_id         | INT             | FK → users.id         |
 | announcement_id | INT             | FK → announcements.id |
 | created_at      | TIMESTAMP       | -                     |
+=======
+| Kolom | Tipe | Keterangan |
+|-------|------|------------|
+| id | INT PRIMARY KEY | - |
+| nama | VARCHAR | - |
+| email | VARCHAR UNIQUE | - |
+| password | VARCHAR | - |
+| role | ENUM('admin', 'mahasiswa') | - |
+| created_at | TIMESTAMP | - |
+
+### Tabel `announcements`
+| Kolom | Tipe | Keterangan |
+|-------|------|------------|
+| id | INT PRIMARY KEY | - |
+| judul | VARCHAR | - |
+| deskripsi | TEXT | - |
+| kategori | ENUM('Akademik', 'Event', 'Beasiswa', 'Magang', 'Organisasi') | - |
+| fakultas | VARCHAR | nullable |
+| gambar | VARCHAR | path file, nullable |
+| lampiran | VARCHAR | path file, nullable |
+| tanggal_mulai | DATE | - |
+| tanggal_selesai | DATE | nullable |
+| admin_id | INT | FK → users.id |
+| created_at | TIMESTAMP | - |
+
+### Tabel `bookmarks`
+| Kolom | Tipe | Keterangan |
+|-------|------|------------|
+| id | INT PRIMARY KEY | - |
+| user_id | INT | FK → users.id |
+| announcement_id | INT | FK → announcements.id |
+| created_at | TIMESTAMP | - |
+>>>>>>> 044ac6e3c0bdcfd185a48453dedb7a4b28737cd4
