@@ -16,13 +16,12 @@ Platform informasi kampus terpusat berbasis web yang mengagregasi pengumuman, ev
 - Halaman beranda dengan feed pengumuman & informasi terbaru
 - Sistem kategori informasi (Akademik, Event, Beasiswa, Magang, Organisasi)
 - Halaman detail informasi lengkap dengan gambar dan lampiran
-- Fitur pencarian dan filter berdasarkan kategori / fakultas / tanggal
+- Fitur pencarian dan filter berdasarkan kategori / tanggal
 - Manajemen konten oleh admin (CRUD pengumuman)
 - Autentikasi pengguna (login admin & mahasiswa)
 
 ### Fitur Opsional
 - Fitur bookmark / simpan informasi favorit
-- Filter berdasarkan jurusan atau fakultas tertentu
 
 ## 👤 Role & Hak Akses
 
