@@ -45,7 +45,7 @@
             <ul class="navbar-nav">
                 @guest
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-outline-light btn-sm px-3 ms-2" href="{{ route('register') }}">Daftar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Daftar</a></li>
                 @else
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">

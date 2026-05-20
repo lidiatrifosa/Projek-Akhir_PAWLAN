@@ -7,76 +7,119 @@ $kategoriColors = [
     'Akademik' => 'primary', 'Event' => 'success',
     'Beasiswa' => 'warning', 'Magang' => 'info', 'Organisasi' => 'secondary'
 ];
+$color = $kategoriColors[$announcement->kategori] ?? 'secondary';
+
 $isBookmarked = auth()->check()
     ? auth()->user()->bookmarks()->where('announcement_id', $announcement->id)->exists()
     : false;
 $bookmark = $isBookmarked
     ? auth()->user()->bookmarks()->where('announcement_id', $announcement->id)->first()
     : null;
+
+$lampiranExt = $announcement->lampiran
+    ? strtolower(pathinfo($announcement->lampiran, PATHINFO_EXTENSION))
+    : null;
 @endphp
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <a href="{{ route('announcements.index') }}" class="btn btn-sm btn-outline-secondary mb-3">
-            <i class="bi bi-arrow-left me-1"></i>Kembali
+<div class="container py-5">
+
+    <div class="mb-4">
+        <a href="{{ route('announcements.index') }}" class="btn btn-outline-secondary">
+            ← Kembali ke Daftar
         </a>
+    </div>
 
-        <div class="card shadow-sm">
-            @if($announcement->gambar)
-                <img src="{{ Storage::url($announcement->gambar) }}" class="card-img-top" style="max-height:350px;object-fit:cover" alt="">
+    <div class="card border-0 shadow-lg" style="overflow: hidden;">
+
+        {{-- Gambar dari database, tiap pengumuman beda --}}
+        @if($announcement->gambar)
+    <div>
+        <img 
+            src="{{ Storage::url($announcement->gambar) }}"
+            style="width:100%; height:auto; display:block;"
+            alt="{{ $announcement->judul }}">
+    </div>
+@else
+            <div class="bg-{{ $color }} bg-opacity-10 d-flex align-items-center justify-content-center"
+                 style="height: 180px;">
+                <span style="font-size: 4rem; opacity: .25;">📢</span>
+            </div>
+        @endif
+
+        <div class="card-body p-5">
+
+            {{-- Badge kategori --}}
+            <span class="badge bg-{{ $color }} px-3 py-2 fs-6 mb-3">
+                {{ $announcement->kategori }}
+            </span>
+            @if($announcement->fakultas)
+                <span class="badge bg-light text-dark border px-3 py-2 fs-6 mb-3 ms-1">
+                    {{ $announcement->fakultas }}
+                </span>
             @endif
-            <div class="card-body p-4">
-                <span class="badge bg-{{ $kategoriColors[$announcement->kategori] ?? 'secondary' }} mb-2">{{ $announcement->kategori }}</span>
-                @if($announcement->fakultas)
-                    <span class="badge bg-light text-dark border mb-2">{{ $announcement->fakultas }}</span>
-                @endif
 
-                <h3 class="fw-bold mt-1">{{ $announcement->judul }}</h3>
+            {{-- Judul --}}
+            <h1 class="fw-bold mb-4">{{ $announcement->judul }}</h1>
 
-                <div class="text-muted small mb-3">
-                    <i class="bi bi-calendar3 me-1"></i>
-                    {{ $announcement->tanggal_mulai->format('d M Y') }}
+            {{-- Meta --}}
+            <div class="d-flex flex-wrap gap-4 text-muted mb-4">
+                <div>
+                    📅 {{ $announcement->tanggal_mulai->format('d M Y') }}
                     @if($announcement->tanggal_selesai)
                         — {{ $announcement->tanggal_selesai->format('d M Y') }}
                     @endif
-                    <span class="ms-3"><i class="bi bi-person me-1"></i>{{ $announcement->admin->nama }}</span>
                 </div>
+                <div>👤 {{ $announcement->admin->nama }}</div>
+                <div>🕒 {{ $announcement->created_at->diffForHumans() }}</div>
+            </div>
 
-                <hr>
-                <div class="mt-3" style="white-space: pre-wrap;">{{ $announcement->deskripsi }}</div>
+            <hr>
 
-                @if($announcement->lampiran)
-                    <div class="mt-4">
-                        <a href="{{ Storage::url($announcement->lampiran) }}" class="btn btn-outline-secondary" target="_blank">
-                            <i class="bi bi-paperclip me-1"></i>Unduh Lampiran
-                        </a>
+            {{-- Deskripsi --}}
+            <div class="mt-4" style="line-height: 1.9; font-size: 17px; white-space: pre-wrap;">{{ $announcement->deskripsi }}</div>
+
+            {{-- Lampiran --}}
+            @if($announcement->lampiran)
+                <div class="mt-5">
+                    <h5 class="fw-bold mb-3">📎 Lampiran</h5>
+                    <div class="card border">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ basename($announcement->lampiran) }}</strong>
+                                <div class="text-muted small">File pendukung informasi pengumuman</div>
+                            </div>
+                            <a href="{{ Storage::url($announcement->lampiran) }}"
+                               class="btn btn-primary" target="_blank" download>
+                                Download {{ strtoupper($lampiranExt) }}
+                            </a>
+                        </div>
                     </div>
-                @endif
+                </div>
+            @endif
 
+            {{-- Bookmark --}}
+            <div class="mt-5">
                 @auth
-                    <div class="mt-4">
-                        @if($isBookmarked)
-                            <form action="{{ route('bookmarks.destroy', $bookmark) }}" method="POST" class="d-inline">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-warning btn-sm">
-                                    <i class="bi bi-bookmark-fill me-1"></i>Hapus Bookmark
-                                </button>
-                            </form>
-                        @else
-                            <form action="{{ route('bookmarks.store') }}" method="POST" class="d-inline">
-                                @csrf
-                                <input type="hidden" name="announcement_id" value="{{ $announcement->id }}">
-                                <button class="btn btn-outline-warning btn-sm">
-                                    <i class="bi bi-bookmark me-1"></i>Simpan Bookmark
-                                </button>
-                            </form>
-                        @endif
-                    </div>
+                    @if($isBookmarked)
+                        <form action="{{ route('bookmarks.destroy', $bookmark) }}" method="POST" class="d-inline">
+                            @csrf @method('DELETE')
+                            <button class="btn btn-warning px-4 py-2">🔖 Hapus Bookmark</button>
+                        </form>
+                    @else
+                        <form action="{{ route('bookmarks.store') }}" method="POST" class="d-inline">
+                            @csrf
+                            <input type="hidden" name="announcement_id" value="{{ $announcement->id }}">
+                            <button class="btn btn-outline-warning px-4 py-2">🔖 Simpan Bookmark</button>
+                        </form>
+                    @endif
                 @else
-                    <p class="mt-3 text-muted small"><a href="{{ route('login') }}">Login</a> untuk menyimpan bookmark.</p>
+                    <p class="text-muted small">
+                        <a href="{{ route('login') }}">Login</a> untuk menyimpan bookmark.
+                    </p>
                 @endauth
             </div>
+
         </div>
     </div>
 </div>

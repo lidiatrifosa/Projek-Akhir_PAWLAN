@@ -46,10 +46,15 @@
 <div class="row g-3 mb-3">
     <div class="col-md-6">
         <label class="form-label fw-semibold">Gambar</label>
-        <input type="file" name="gambar" class="form-control @error('gambar') is-invalid @enderror" accept="image/*">
         @if(isset($announcement) && $announcement->gambar)
-            <small class="text-muted">Gambar saat ini: <a href="{{ Storage::url($announcement->gambar) }}" target="_blank">Lihat</a></small>
+            <div class="mb-2">
+                <img src="{{ Storage::url($announcement->gambar) }}"
+                     class="img-thumbnail" style="max-height:120px; object-fit:cover;"
+                     alt="Gambar saat ini">
+                <div class="text-muted small mt-1">Upload baru untuk mengganti gambar ini.</div>
+            </div>
         @endif
+        <input type="file" name="gambar" class="form-control @error('gambar') is-invalid @enderror" accept="image/*">
         @error('gambar')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
     <div class="col-md-6">

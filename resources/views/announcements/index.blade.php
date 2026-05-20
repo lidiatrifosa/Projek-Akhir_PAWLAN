@@ -54,7 +54,11 @@ $kategoriColors = [
         <div class="col">
             <div class="card h-100 shadow-sm">
                 @if($ann->gambar)
-                    <img src="{{ Storage::url($ann->gambar) }}" class="card-img-top" style="height:180px;object-fit:cover" alt="">
+                <div style="aspect-ratio: 16/9; overflow: hidden; background: #f8f9fa;">
+                    <img src="{{ Storage::url($ann->gambar) }}"
+                         style="width:100%; height:100%; object-fit:contain;"
+                         alt="{{ $ann->judul }}">
+                </div>
                 @endif
                 <div class="card-body">
                     <span class="badge bg-{{ $kategoriColors[$ann->kategori] ?? 'secondary' }} badge-kategori mb-2">{{ $ann->kategori }}</span>

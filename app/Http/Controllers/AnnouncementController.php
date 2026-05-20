@@ -66,11 +66,15 @@ class AnnouncementController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = $request->file('gambar')->store('announcements', 'public');
+            $file = $request->file('gambar');
+            $nama = $file->getClientOriginalName();
+            $data['gambar'] = $file->storeAs('announcements', $nama, 'public');
         }
 
         if ($request->hasFile('lampiran')) {
-            $data['lampiran'] = $request->file('lampiran')->store('documents', 'public');
+            $file = $request->file('lampiran');
+            $nama = $file->getClientOriginalName();
+            $data['lampiran'] = $file->storeAs('documents', $nama, 'public');
         }
 
         $data['admin_id'] = auth()->id();
@@ -99,12 +103,16 @@ class AnnouncementController extends Controller
 
         if ($request->hasFile('gambar')) {
             if ($announcement->gambar) Storage::disk('public')->delete($announcement->gambar);
-            $data['gambar'] = $request->file('gambar')->store('announcements', 'public');
+            $file = $request->file('gambar');
+            $nama = $file->getClientOriginalName();
+            $data['gambar'] = $file->storeAs('announcements', $nama, 'public');
         }
 
         if ($request->hasFile('lampiran')) {
             if ($announcement->lampiran) Storage::disk('public')->delete($announcement->lampiran);
-            $data['lampiran'] = $request->file('lampiran')->store('documents', 'public');
+            $file = $request->file('lampiran');
+            $nama = $file->getClientOriginalName();
+            $data['lampiran'] = $file->storeAs('documents', $nama, 'public');
         }
 
         $announcement->update($data);
